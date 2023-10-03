@@ -6,7 +6,7 @@ const PrivateRouter = ({children}) => {
 
     const {user} = useContext(AuthContext)
     if(user){
-        children
+        return children
     }
     return <Navigate to='/'></Navigate>
 };

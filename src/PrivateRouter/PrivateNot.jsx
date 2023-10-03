@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 const PrivateNot = ({children}) => {
     const {user} = useContext(AuthContext)
     if(!user){
-        children
+        return children
     }
     return <Navigate to='/'></Navigate>
 };

@@ -1,11 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [successLogin, setSuccessLogin] = useState("");
   const [errorLogin, setErrorLogin] = useState("");
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser, forgetPassword } = useContext(AuthContext);
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -16,9 +18,7 @@ const Login = () => {
     signInUser(email, password)
       .then((result) => {
         setSuccessLogin("Login Success");
-        
         e.target.reset();
-       
       })
       .catch((error) => {
         console.log(error);
@@ -26,6 +26,41 @@ const Login = () => {
       });
 
     console.log(email, password);
+  };
+
+  const emailRef = useRef(null);
+  const handleForgetPass = () => {
+    const email = emailRef.current.value;
+
+    if(!email){
+        return toast.error("The email field can't be blank", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    }
+
+    forgetPassword(email)
+      .then(() => {
+        toast.success("A password link has been sent on your email", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
   return (
     <div className="hero min-h-screen">
@@ -44,6 +79,7 @@ const Login = () => {
                 placeholder="email"
                 className="input input-bordered"
                 name="email"
+                ref={emailRef}
                 required
               />
             </div>
@@ -60,7 +96,10 @@ const Login = () => {
               />
 
               <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
+                <a
+                  onClick={handleForgetPass}
+                  className="label-text-alt link link-hover"
+                >
                   Forgot password?
                 </a>
               </label>
@@ -71,6 +110,18 @@ const Login = () => {
           </form>
           {<p className="text-3xl text-green-500">{successLogin}</p>}
           {<p className="text-red-600">{errorLogin}</p>}
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <div className="py-3">
             <p className="py-3">New in this website?</p>
             <span className="bg-blue-700 py-2 px-3 rounded my-20 text-white">
