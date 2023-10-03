@@ -1,24 +1,47 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
-    const {createUser} = useContext(AuthContext)
+  const { createUser } = useContext(AuthContext);
 
-
-    const handleRegister = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    
-    createUser(email, password)
-    .then(result => {
-        console.log(result);
-    })
-    .catch(error => {
-        console.log(error)
-    })
 
+    createUser(email, password)
+      .then((result) => {
+          e.target.reset()
+          
+        toast.success('Welcome to Auth Test Website', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Something went wrong', {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+      });
   };
 
   return (
@@ -57,6 +80,18 @@ const Register = () => {
               <button className="btn btn-primary">Register</button>
             </div>
           </form>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={1500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <div className="py-3">
             <p>Already Have a Account?</p>
             <Link to="/login">Login</Link>
