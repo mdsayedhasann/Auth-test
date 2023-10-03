@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import AuthProvider from "./Provider/AuthProvider";
 import Orders from "./components/Orders";
 import PrivateRouter from "./PrivateRouter/PrivateRouter";
+import PrivateNot from "./PrivateRouter/PrivateNot";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login></Login>,
+        element:  <PrivateNot><Login></Login></PrivateNot> ,
       },
       {
         path: '/orders',

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Login = () => {
@@ -16,7 +16,9 @@ const Login = () => {
     signInUser(email, password)
       .then((result) => {
         setSuccessLogin("Login Success");
+        
         e.target.reset();
+       
       })
       .catch((error) => {
         console.log(error);

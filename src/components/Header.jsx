@@ -3,17 +3,17 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Header = () => {
-  const {user, logOut} = useContext(AuthContext)
+  const { user, logOut } = useContext(AuthContext);
 
   const loggedOut = () => {
     logOut()
-    .then(() => {
-      console.log('Log Out Success');
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
+      .then(() => {
+        console.log("Log Out Success");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const links = (
     <>
       <li>
@@ -24,17 +24,21 @@ const Header = () => {
         <NavLink to="/register"> Register </NavLink>
       </li>
 
-      <li>
-        <NavLink to="/login"> Login </NavLink>
-      </li>
+      {user ? (
+        ""
+      ) : (
+        <>
+          <li>
+            <NavLink to="/login"> Login </NavLink>
+          </li>
+        </>
+      )}
 
-      {
-        user && 
+      {user && (
         <li>
-        <NavLink to="/orders"> Orders </NavLink>
-      </li>
-      }
-      
+          <NavLink to="/orders"> Orders </NavLink>
+        </li>
+      )}
     </>
   );
   return (
@@ -65,7 +69,7 @@ const Header = () => {
           </ul>
         </div>
         <p className="btn btn-ghost normal-case text-xl">
-          <NavLink to='/'> Auth Test </NavLink>
+          <NavLink to="/"> Auth Test </NavLink>
         </p>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -73,18 +77,21 @@ const Header = () => {
       </div>
       <div className="navbar-end">
         <p>
-          {
-            user ?
+          {user ? (
             <>
-            <div className="flex gap-4 items-center">
-            <p> {user.email} </p>
-            <a onClick={loggedOut} className="btn">Logout</a>
-            </div>
+              <div className="flex gap-4 items-center">
+                <p> {user.email} </p>
+                <a onClick={loggedOut} className="btn">
+                  Logout
+                </a>
+              </div>
             </>
-            : <NavLink to='/login' className="btn">Login</NavLink>
-          }
+          ) : (
+            <NavLink to="/login" className="btn">
+              Login
+            </NavLink>
+          )}
         </p>
-        
       </div>
     </div>
   );
